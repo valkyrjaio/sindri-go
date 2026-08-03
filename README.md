@@ -7,12 +7,13 @@
 [Sindri][github sindri] is the code generator and application creator for the
 [Valkyrja][Valkyrja url] Go framework.
 
-Sindri generates the data structs that let your application skip discovery work
-at runtime — parsing configuration and source into container, event, and routing
-data ahead of time. Named after the dwarven smith in Norse mythology who forged
-Mjölnir and other divine artifacts, Sindri does for your Valkyrja app what his
-namesake did for the gods: crafts the tools and artifacts that make it all work
-faster and better.
+Sindri generates the data structs that your application loads at boot. It parses
+configuration and source into container, event, and routing data ahead of time,
+so the application does no discovery work at runtime.
+
+Sindri takes its name from the dwarven smith in Norse mythology who forged
+Mjölnir. The smith made the tools that the gods used. Sindri makes the data
+files that a Valkyrja application uses.
 
 <p>
     <a href="https://pkg.go.dev/github.com/valkyrjaio/sindri-go/v26"><img src="https://pkg.go.dev/badge/github.com/valkyrjaio/sindri-go/v26.svg" alt="Go Reference"></a>
@@ -51,6 +52,10 @@ framework carries no dependency on the Go AST packages.
 
 Installation
 ------------
+
+Warning: `cmd/sindri` arrives with the build tool, and this repository holds no
+command yet. The command below is what you will run once it lands, and
+`go get -tool` reports that no module provides the package until then.
 
 Sindri runs through `go tool`, so its version is pinned in your project and its
 dependency graph never mixes with your application's:

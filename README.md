@@ -2,119 +2,146 @@
     <img src="https://raw.githubusercontent.com/valkyrjaio/art/refs/heads/master/long-banner/orange/go.png" width="100%">
 </a></p>
 
-# Project Template (Go)
+# Sindri
 
-A starter template for creating new Go repositories in the Valkyrjaio
-organization.
+[Sindri][github sindri] is the code generator and application creator for the
+[Valkyrja][Valkyrja url] Go framework.
 
-This template ships with the full Valkyrja CI pipeline pre-wired (golangci-lint
-and the built-in Go test/coverage toolchain), a minimal Go module setup, and the
-repository conventions used across the rest of the org. Use it as the starting
-point for any new Go package, CI tool config, or integration repo — not for
-end-user applications built on the Valkyrja framework (use
-[`valkyrja-starter-app-go`][starter url] for that).
+Sindri generates the data structs that let your application skip discovery work
+at runtime — parsing configuration and source into container, event, and routing
+data ahead of time. Named after the dwarven smith in Norse mythology who forged
+Mjölnir and other divine artifacts, Sindri does for your Valkyrja app what his
+namesake did for the gods: crafts the tools and artifacts that make it all work
+faster and better.
 
 <p>
-    <a href="https://pkg.go.dev/github.com/valkyrjaio/project-template-go/v26"><img src="https://pkg.go.dev/badge/github.com/valkyrjaio/project-template-go/v26.svg" alt="Go Reference"></a>
-    <a href="https://github.com/valkyrjaio/project-template-go/releases"><img src="https://img.shields.io/github/v/release/valkyrjaio/project-template-go" alt="Latest Version"></a>
-    <a href="https://github.com/valkyrjaio/project-template-go/blob/26.x/LICENSE.md"><img src="https://img.shields.io/github/license/valkyrjaio/project-template-go.svg" alt="License"></a>
-    <a href="https://github.com/valkyrjaio/project-template-go/actions/workflows/ci.yml?query=branch%3A26.x"><img src="https://github.com/valkyrjaio/project-template-go/actions/workflows/ci.yml/badge.svg?branch=26.x" alt="CI Status"></a>
-    <a href="https://coveralls.io/github/valkyrjaio/project-template-go?branch=26.x"><img src="https://coveralls.io/repos/github/valkyrjaio/project-template-go/badge.svg?branch=26.x" alt="Coverage Status"></a>
-    <a href="https://sonarcloud.io/summary/new_code?id=valkyrjaio_project-template-go"><img src="https://sonarcloud.io/api/project_badges/measure?project=valkyrjaio_project-template-go&metric=sqale_rating" alt="Maintainability Rating"></a>
+    <a href="https://pkg.go.dev/github.com/valkyrjaio/sindri-go/v26"><img src="https://pkg.go.dev/badge/github.com/valkyrjaio/sindri-go/v26.svg" alt="Go Reference"></a>
+    <a href="https://github.com/valkyrjaio/sindri-go/releases"><img src="https://img.shields.io/github/v/release/valkyrjaio/sindri-go" alt="Latest Version"></a>
+    <a href="https://github.com/valkyrjaio/sindri-go/blob/26.x/go.mod"><img src="https://img.shields.io/badge/Go-1.26-orange" alt="Go Version"></a>
+    <a href="https://github.com/valkyrjaio/sindri-go/blob/26.x/LICENSE.md"><img src="https://img.shields.io/github/license/valkyrjaio/sindri-go.svg" alt="License"></a>
+    <a href="https://github.com/valkyrjaio/sindri-go/actions/workflows/ci.yml?query=branch%3A26.x"><img src="https://github.com/valkyrjaio/sindri-go/actions/workflows/ci.yml/badge.svg?branch=26.x" alt="CI Status"></a>
+    <a href="https://coveralls.io/github/valkyrjaio/sindri-go?branch=26.x"><img src="https://coveralls.io/repos/github/valkyrjaio/sindri-go/badge.svg?branch=26.x" alt="Coverage Status"></a>
+    <a href="https://sonarcloud.io/summary/new_code?id=valkyrjaio_sindri-go"><img src="https://sonarcloud.io/api/project_badges/measure?project=valkyrjaio_sindri-go&metric=sqale_rating" alt="Maintainability Rating"></a>
 </p>
 
-Usage
------
+Port Status
+-----------
 
-### Use this template _(recommended)_
+The Go port is in progress, and this repository holds the scaffolding for it.
+PHP is the reference implementation, and the Go build tool follows the Go port
+of the framework. Read [`PORTS.md`][ports url] for the state of each port.
 
-This repository is a GitHub template. Click the **Use this template** button
-at the top of the repo to create a new repository in the Valkyrjaio
-organization, pre-populated with the template's structure and CI.
+The sections below describe the build tool that every port implements. A command
+is not in this repository until its own package exists.
 
-### After Creating Your Repo
+What Sindri Does
+----------------
 
-1. Update `go.mod` with your module path (keep the `/vNN` major-version suffix)
-2. Rename the `template/` package directory to your package and replace its
-   contents with your source code
-3. Update this `README.md` to describe the new package
-4. Configure the required secrets and variables — see
-   [`REPOSITORY_NAMING.md`][repository naming url] for naming guidance and
-   `.github`'s workflow documentation for secret requirements
-5. Verify CI passes on the first commit
+- **Generates the data structs** — parses configuration and source into
+  container, event, and routing data so your app skips discovery at runtime
+- **Reads source through the Go toolchain** — walks the provider tree with
+  `go/packages`, `go/ast`, and `go/analysis` to produce accurate, typed data
+  files
+- **Builds artifacts** — prepares deployable outputs for production runtimes
+- **Handles upgrades** — assists with migrations between major Valkyrja versions
 
-What's Included
+Sindri is a development dependency. The framework runs without a generated
+cache, so nothing Sindri produces is required to serve a request, and the
+framework carries no dependency on the Go AST packages.
+
+Installation
+------------
+
+Sindri runs through `go tool`, so its version is pinned in your project and its
+dependency graph never mixes with your application's:
+
+```bash
+go get -tool github.com/valkyrjaio/sindri-go/v26/cmd/sindri
+```
+
+The `/v26` suffix is part of the module path. Go's semantic import versioning
+encodes a major version above 1 in the path, and the path tracks the annual
+major version.
+
+Getting Started
 ---------------
 
-- **CI pipeline** — golangci-lint (formatting, static analysis, security,
-  architecture, dead code) plus the built-in `go test` toolchain for tests and
-  coverage, matching the org convention
-- **Makefile** — the root task runner (`make ci`, `make lint`, `make test`,
-  `make coverage`, `make fmt`), the Go analog of composer/npm/Gradle scripts
-- **Repository conventions** — aligned with
-  [`REPOSITORY_NAMING.md`][repository naming url] and
-  [`VOCABULARY.md`][vocabulary url]
+### Generating Data Files
 
-### CI tooling
+Sindri's primary job is generating the data structs Valkyrja loads at boot —
+container, event, and routing data derived from your configuration:
 
-Go's toolchain covers most of what other languages need separate tools for
-(testing, coverage, formatting, vet, build, dependency hygiene). The only
-external tool is **golangci-lint**, pinned in `.github/ci/lint/go.mod` and run
-via `make lint`. Run the full gate locally with `make ci`.
+```bash
+go tool sindri generate
+```
+
+`generate` is the default command. It reads your application's configuration and
+source, then writes the corresponding data structs.
+
+### Listing Available Commands
+
+```bash
+go tool sindri list
+```
+
+Documentation
+-------------
+
+Valkyrja documentation is baked into the framework repository so you can browse
+it offline. For framework-level questions about Valkyrja itself, see the
+[Valkyrja framework repository][framework url].
 
 Versioning and Release Process
 ------------------------------
 
-This template follows [semantic versioning][semantic versioning url] with a
-major release every year, and support for each major version for 2 years
-from the date of release.
-
-Go [semantic import versioning][semantic import versioning url] requires the
-major version to be encoded in the module path for any major `>= 2` — hence the
-`/v26` suffix in `go.mod`. Each annual major bump advances that suffix.
-
-For more information see our
-[Versioning and Release Process documentation][Versioning and Release Process url].
+Sindri follows [semantic versioning][semantic versioning url] with a major
+release every year, and support for each major version for 2 years from the date
+of release.
 
 ### Supported Versions
 
 Bug fixes are provided until 3 months after the next major release. Security
 fixes are provided for 2 years after the initial release.
 
-| Version | Go    | Release        | Bug Fixes Until | Security Fixes Until |
-| :------ | :---- | :------------- | :-------------- | :------------------- |
-| 26      | 1.26+ | March 31, 2026 | Q2 2027         | Q1 2028              |
+| Version | Go   | Release | Bug Fixes Until | Security Fixes Until |
+| :------ | :--- | :------ | :-------------- | :------------------- |
+| 26      | 1.26 | Q3 2026 | Q2 2027         | Q1 2028              |
+| 27      | 1.27 | Q1 2027 | Q2 2028         | Q1 2029              |
+| 28      | 1.28 | Q1 2028 | Q2 2029         | Q1 2030              |
 
 Contributing
 ------------
 
-This template is an open-source, community-driven project. Improvements to
-the template itself — refinements to the included CI configuration, Go module
-setup, or documentation — are welcome.
+Sindri is an open-source, community-driven project. Thank you for your interest
+in helping develop, maintain, and release it.
 
 See [`CONTRIBUTING.md`][contributing url] for the submission process and
 [`VOCABULARY.md`][vocabulary url] for the terminology used across Valkyrja.
 
+Run the full gate before you open a pull request:
+
+```bash
+make ci
+```
+
 Security Issues
 ---------------
 
-If you discover a security vulnerability, please follow our
+If you discover a security vulnerability within Sindri, please follow our
 [disclosure procedure][security vulnerabilities url].
 
 License
 -------
 
-This template is open-source software licensed under the
-[MIT license][MIT license url]. See [`LICENSE.md`](./LICENSE.md).
+Sindri is open-source software licensed under the [MIT license][MIT license url].
+See [`LICENSE.md`](./LICENSE.md).
 
 [Valkyrja url]: https://valkyrja.io
-[starter url]: https://github.com/valkyrjaio/valkyrja-starter-app-go
-[repository naming url]: https://github.com/valkyrjaio/.github/blob/26.x/REPOSITORY_NAMING.md
-[vocabulary url]: https://github.com/valkyrjaio/.github/blob/26.x/VOCABULARY.md
-[contributing url]: https://github.com/valkyrjaio/.github/blob/26.x/CONTRIBUTING.md
-[security vulnerabilities url]: https://github.com/valkyrjaio/.github/blob/26.x/SECURITY.md
-[Versioning and Release Process url]: https://github.com/valkyrjaio/.github/blob/26.x/VERSIONING_AND_RELEASE_PROCESS.md
+[github sindri]: https://github.com/valkyrjaio/sindri-go
+[framework url]: https://github.com/valkyrjaio/valkyrja-go
+[ports url]: https://github.com/valkyrjaio/architecture/blob/master/PORTS.md
+[contributing url]: https://github.com/valkyrjaio/.github/blob/master/CONTRIBUTING.md
+[vocabulary url]: https://github.com/valkyrjaio/.github/blob/master/VOCABULARY.md
+[security vulnerabilities url]: https://github.com/valkyrjaio/.github/blob/master/SECURITY.md
 [semantic versioning url]: https://semver.org/
-[semantic import versioning url]: https://go.dev/ref/mod#major-version-suffixes
 [MIT license url]: https://opensource.org/licenses/MIT
-[license url]: ./LICENSE.md

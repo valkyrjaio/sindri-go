@@ -47,8 +47,8 @@ What Sindri Does
 - **Handles upgrades** — assists with migrations between major Valkyrja versions
 
 Sindri is a development dependency. The framework runs without a generated
-cache, so nothing Sindri produces is required to serve a request, and the
-framework carries no dependency on the Go AST packages.
+cache, so nothing Sindri produces is required to serve a request. The framework
+also carries no dependency on the Go AST packages.
 
 Installation
 ------------

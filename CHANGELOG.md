@@ -1,6 +1,11 @@
 # Release Notes for 26.x
 
-## [Unreleased](https://github.com/valkyrjaio/project-template-go/compare/v26.0.9...26.x)
+## [Unreleased](https://github.com/valkyrjaio/project-template-go/compare/v26.0.10...26.x)
+
+## [v26.0.10](https://github.com/valkyrjaio/project-template-go/compare/v26.0.9...v26.0.10) - 2026-08-20
+
+* [Dependency] build: Update Go dependencies by [@valkyrja-volundr](https://github.com/valkyrja-volundr)[bot] in https://github.com/valkyrjaio/sindri-go/pull/25
+* [Dependency] build: Update Go dependencies by [@valkyrja-volundr](https://github.com/valkyrja-volundr)[bot] in https://github.com/valkyrjaio/sindri-go/pull/26
 
 ## [v26.0.9](https://github.com/valkyrjaio/project-template-go/compare/v26.0.8...v26.0.9) - 2026-08-19
 
